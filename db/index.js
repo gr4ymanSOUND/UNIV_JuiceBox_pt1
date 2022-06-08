@@ -343,7 +343,22 @@ async function addTagsToPost(postId, tagList) {
         return await getPostById(postId);
     } catch (err) {
         console.log('error error adding tags to the post');
-        return err;
+        throw err;
+    }
+}
+
+// get a list of all tags
+async function getAllTags() {
+    try {
+        const { rows } = await client.query(`
+            SELECT *
+            FROM tags;
+        `);
+        console.log('tags output', rows)
+        return rows;
+    } catch (err) {
+        console.log('error getting all tags');
+        throw err;
     }
 }
 
@@ -384,5 +399,6 @@ module.exports = {
     getPostsByUser,
     createTags,
     addTagsToPost,
-    getPostsByTagName
+    getPostsByTagName,
+    getAllTags
 }

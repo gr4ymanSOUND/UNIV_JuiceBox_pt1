@@ -106,6 +106,21 @@ async function getUserById(userId) {
     }
 }
 
+async function getUserByUsername(username) {
+    try {
+        const { rows: [ user ] } = await client.query(`
+            SELECT *
+            FROM users
+            WHERE username=$1;
+        `, [ username ]);
+
+        return user;
+    } catch (errr) {
+        console.log('erorr getting a user by the username');
+        throw err;
+    }
+}
+
 
 // >>>>>> post methods <<<<<<
 
@@ -381,7 +396,7 @@ async function getPostsByTagName(tagName) {
         ));
 
     } catch (err) {
-        console.log('error retrieving posts using a tag name')
+        console.log('error retrieving posts using a tag name');
         throw err;
     }
 }
@@ -393,6 +408,7 @@ module.exports = {
     updateUser,
     getAllUsers,
     getUserById,
+    getUserByUsername,
     createPost,
     updatePost,
     getAllPosts,

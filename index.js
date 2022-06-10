@@ -1,10 +1,15 @@
 const PORT = 3000;
 const express = require('express');
 const server = express();
+const { client } = require('./db');
+require('dotenv').config();
 
 // logging middleware that does basic logs each request
 const morgan = require('morgan');
 server.use(morgan('dev'));
+
+// connect to the client
+client.connect();
 
 // body parser middleware - converts the request into readable json
 // if the request's header is not "Content-Type: application/json", this won't really work
@@ -22,8 +27,6 @@ const apiRouter = require('./api');
 server.use('/api', apiRouter);
 
 
-const { client } = require('./db');
-client.connect();
 
 // start the server
 server.listen(PORT, () => {

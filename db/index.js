@@ -3,7 +3,7 @@ const { Client } = require('pg');
 
 // supply the name and location of the database to the Client constructer we got from the pg module
 // methods from this client variable will be used elsewhere to connect to, interact with, and disconnect from the database
-const client = new Client('postgres://localhost:5432/juicebox-dev');
+const client = new Client( process.env.DATABASE_URL || 'postgres://localhost:5432/juicebox-dev');
 
 
 // ---------> helper functions <----------

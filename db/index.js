@@ -312,6 +312,14 @@ async function getPostById(postId) {
             WHERE id=$1;
         `, [postId]);
 
+        // checking if the post didn't exist, throw an error
+        if (!post) {
+            throw {
+                name: 'PostNotFoundError',
+                message: 'Could not find a post with that postId'
+            };
+        }
+
         // then get the tags; use a JOIN to use the post_tags table to only pull the tags associated with this postId
         const { rows: tags } = await client.query(`
             SELECT tags.*
@@ -413,6 +421,7 @@ module.exports = {
     updatePost,
     getAllPosts,
     getPostsByUser,
+    getPostById,
     createTags,
     addTagsToPost,
     getPostsByTagName,
